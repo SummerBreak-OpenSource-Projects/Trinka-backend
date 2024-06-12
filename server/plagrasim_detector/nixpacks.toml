@@ -5,4 +5,4 @@ run = "pip install -r requirements.txt"
 run = "python manage.py collectstatic --noinput"
 
 [phases.start]
-run = "python manage.py runserver 0.0.0.0:8000"
+run = "gunicorn plagrasim_detector.wsgi:application --bind 0.0.0.0:8000"

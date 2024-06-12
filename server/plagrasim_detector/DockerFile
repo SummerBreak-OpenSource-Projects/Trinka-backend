@@ -1,0 +1,28 @@
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy project files
+COPY . /app
+
+# Install dependencies
+RUN python -m venv venv \
+    && . venv/bin/activate \
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt
+
+# Collect static files
+RUN . venv/bin/activate && python manage.py collectstatic --noinput
+
+# Run migrations
+RUN . venv/bin/activate && python manage.py migrate
+
+# Set environment variables
+ENV PORT=8000
+
+# Expose port
+EXPOSE 8000
+
+# Start the application
+CMD ["venv/bin/gunicorn", "--bind", "0.0.0.0:8000", "plagrasim_detector.wsgi:application"]
