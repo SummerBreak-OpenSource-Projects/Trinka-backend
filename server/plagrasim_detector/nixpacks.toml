@@ -1,0 +1,8 @@
+[phases.setup]
+run = "pip install -r requirements.txt"
+
+[phases.build]
+run = "python manage.py collectstatic --noinput"
+
+[phases.start]
+run = "python manage.py runserver 0.0.0.0:8000"
